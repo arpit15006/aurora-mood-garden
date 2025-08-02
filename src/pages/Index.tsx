@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Sparkles, User, Camera, BookOpen, MessageCircle, TrendingUp, Stars, Zap, LogOut, HelpCircle } from 'lucide-react';
+import { Sparkles, User, Camera, BookOpen, MessageCircle, TrendingUp, Stars, Zap, LogOut, HelpCircle, TreePine } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import AuroraLogo from '@/components/ui/AuroraLogo';
 import HomePage from '@/components/HomePage';
@@ -11,9 +11,11 @@ import EmotionDetector from '@/components/EmotionDetector';
 import JournalSpace from '@/components/JournalSpace';
 import AIVentSpace from '@/components/AIVentSpace';
 import Dashboard from '@/components/Dashboard';
+import MoodGarden from '@/components/MoodGarden';
 
 const tabs = [
   { id: 'home', label: 'Home', icon: Sparkles },
+  { id: 'mood-garden', label: 'Mood Garden', icon: TreePine },
   { id: 'emotion-detection', label: 'Emotion Detection', icon: Camera },
   { id: 'journal', label: 'Journal', icon: BookOpen },
   { id: 'vent', label: 'AI Companion', icon: MessageCircle },
@@ -140,7 +142,7 @@ const Index = () => {
                     onClick={() => setCurrentSection(tab.id)}
                     variant={isActive ? "default" : "ghost"}
                     className={`
-                      flex items-center space-x-3 px-8 py-4 rounded-3xl transition-all duration-500 border-2 flex-1 mx-1
+                      flex items-center space-x-2 px-4 lg:px-6 py-3 lg:py-4 rounded-3xl transition-all duration-500 border-2 flex-1 mx-1
                       ${isActive 
                         ? 'bg-gradient-to-r from-cyan-500/40 to-purple-600/40 text-white border-cyan-400/50 shadow-2xl backdrop-blur-xl liquid-glass-strong scale-105' 
                         : 'text-gray-300 hover:text-white hover:bg-white/10 border-transparent hover:border-white/20 hover:scale-105 liquid-glass backdrop-blur-xl'
@@ -148,7 +150,7 @@ const Index = () => {
                     `}
                   >
                     <Icon className={`h-5 w-5 ${isActive ? 'text-cyan-200' : ''}`} />
-                    <span className="font-semibold text-base whitespace-nowrap">{tab.label}</span>
+                    <span className="font-semibold text-sm lg:text-base whitespace-nowrap hidden sm:inline">{tab.label}</span>
                     {isActive && (
                       <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
                     )}
@@ -162,6 +164,7 @@ const Index = () => {
         {/* Content */}
         <div className="space-y-8">
           {currentSection === 'home' && <HomePage onNavigate={setCurrentSection} currentSection={currentSection} />}
+          {currentSection === 'mood-garden' && <MoodGarden />}
           {currentSection === 'emotion-detection' && <EmotionDetector />}
           {currentSection === 'journal' && <JournalSpace currentMood={currentMood} />}
           {currentSection === 'vent' && <AIVentSpace />}

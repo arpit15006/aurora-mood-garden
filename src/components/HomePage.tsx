@@ -98,7 +98,6 @@ const HomePage = ({ onNavigate, currentSection }: HomePageProps) => {
             <div className="flex items-center space-x-4">
               <Smile className="h-7 w-7 text-yellow-400 animate-pulse" />
               <span className="text-gray-100 font-semibold text-xl">Start your wellness journey today</span>
-              <ArrowRight className="h-6 w-6 text-cyan-400 group-hover:translate-x-1 transition-transform" />
             </div>
           </div>
         </div>

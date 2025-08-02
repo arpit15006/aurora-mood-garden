@@ -213,6 +213,7 @@
     rgba(139, 92, 246, 0.1), 
     rgba(236, 72, 153, 0.1)
   );
+  -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   animation: float 15s ease-in-out infinite;
   pointer-events: none;

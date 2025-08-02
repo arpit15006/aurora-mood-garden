@@ -28,7 +28,7 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
       icon: TreePine,
       gradient: 'from-green-500 to-emerald-600',
       bgColor: 'bg-green-500/10',
-      action: () => navigate('/mood-garden')
+      action: () => onNavigate('mood-garden')
     },
     {
       id: 'emotion-detection',
