@@ -74,7 +74,7 @@ const AIVentSpace = () => {
     };
   }, []);
 
-  const callGroqAPI = async (prompt: string, isVoiceMode = false) => {
+  const callGroqAPI = async (prompt: string, isVoiceMode = false, conversationHistory: Message[] = []) => {
     try {
       const systemContent = isVoiceMode
         ? `You are Aurora, a compassionate AI emotional support companion designed specifically for students. You are currently in voice conversation mode. Your role is to:
@@ -88,6 +88,7 @@ const AIVentSpace = () => {
 7. Encourage professional help when needed
 8. Use a gentle, supportive tone perfect for voice interaction
 9. Remember you're talking to students facing academic and life pressures
+10. Reference previous parts of the conversation to show you're listening and understanding
 
 Keep responses conversational, warm, and natural for voice interaction. Use shorter sentences and a speaking tone. Avoid complex formatting. Be supportive and empathetic as if you're having a real conversation.`
         : `You are Aurora, a compassionate AI emotional support companion designed specifically for students. Your role is to:
@@ -101,8 +102,18 @@ Keep responses conversational, warm, and natural for voice interaction. Use shor
 7. Encourage professional help when needed
 8. Use a gentle, supportive tone
 9. Remember you're talking to students facing academic and life pressures
+10. Reference previous parts of the conversation to show you're listening and understanding
 
 Keep responses conversational, supportive, and focused on emotional wellness. Don't try to "fix" everything - sometimes just being heard is enough.`;
+
+      // Convert conversation history to API format, excluding the welcome message
+      const conversationMessages = conversationHistory
+        .filter(msg => msg.id !== 'welcome') // Exclude welcome message
+        .slice(-10) // Keep only last 10 messages to avoid token limits
+        .map(msg => ({
+          role: msg.isUser ? 'user' : 'assistant',
+          content: msg.content
+        }));
 
       const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
         method: 'POST',
@@ -117,6 +128,7 @@ Keep responses conversational, supportive, and focused on emotional wellness. Do
               role: 'system',
               content: systemContent
             },
+            ...conversationMessages,
             {
               role: 'user',
               content: prompt
@@ -210,12 +222,13 @@ Keep responses conversational, supportive, and focused on emotional wellness. Do
       isVoice: isVoiceMessage
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    const updatedMessages = [...messages, userMessage];
+    setMessages(updatedMessages);
     setInputMessage('');
     setIsTyping(true);
 
-    // Get AI response
-    const aiResponse = await callGroqAPI(inputMessage, isVoiceMode);
+    // Get AI response with conversation history
+    const aiResponse = await callGroqAPI(inputMessage, isVoiceMode, updatedMessages);
 
     const aiMessage: Message = {
       id: (Date.now() + 1).toString(),
@@ -462,7 +475,7 @@ Keep responses conversational, supportive, and focused on emotional wellness. Do
                   <Textarea
                     value={inputMessage}
                     onChange={(e) => setInputMessage(e.target.value)}
-                    onKeyPress={handleKeyPress}
+                    onKeyDown={handleKeyPress}
                     placeholder={isVoiceMode
                       ? "Voice message will appear here... or type manually"
                       : "Share what's on your mind... I'm here to listen."

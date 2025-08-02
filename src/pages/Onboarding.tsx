@@ -22,6 +22,7 @@ import {
   CheckCircle
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import AuroraLogo from '@/components/ui/AuroraLogo';
 
 const OnboardingPage = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -36,12 +37,8 @@ const OnboardingPage = () => {
         <div className="text-center space-y-6">
           <div className="relative mx-auto w-32 h-32">
             <div className="absolute inset-0 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-full blur-xl opacity-30 animate-pulse"></div>
-            <div className="relative liquid-glass-strong rounded-full p-8 backdrop-blur-xl">
-              <Sparkles className="h-16 w-16 text-transparent mx-auto" style={{ 
-                background: 'linear-gradient(135deg, hsl(177, 90%, 70%), hsl(262, 85%, 80%), hsl(330, 90%, 75%))',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent'
-              }} />
+            <div className="relative liquid-glass-strong rounded-full p-4 backdrop-blur-xl flex items-center justify-center">
+              <AuroraLogo size={96} className="mx-auto" />
             </div>
           </div>
           <p className="text-xl text-gray-200 leading-relaxed">

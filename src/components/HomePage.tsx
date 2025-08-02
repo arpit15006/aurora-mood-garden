@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Sparkles, Heart, BookOpen, MessageCircle, Camera, Smile, ArrowRight, Stars, Zap } from 'lucide-react';
 import Navigation from './Navigation';
+import AuroraLogo from './ui/AuroraLogo';
 
 interface HomePageProps {
   onNavigate: (section: string) => void;
@@ -56,17 +57,13 @@ const HomePage = ({ onNavigate, currentSection }: HomePageProps) => {
             <div className="absolute -inset-8 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-full blur-2xl opacity-30 animate-pulse group-hover:opacity-50 transition-opacity duration-300"></div>
             
             {/* Main logo container */}
-            <div className="relative liquid-glass-strong rounded-full p-12 group-hover:scale-105 transition-transform duration-300">
+            <div className="relative liquid-glass-strong rounded-full p-6 group-hover:scale-105 transition-transform duration-300">
               {/* Inner decorative elements */}
               <div className="absolute inset-4 rounded-full bg-gradient-to-br from-cyan-500/20 via-purple-500/20 to-pink-500/20 animate-pulse"></div>
-              
+
               {/* Logo content */}
               <div className="relative flex items-center justify-center">
-                <Sparkles className="h-20 w-20 text-transparent aurora-text-glow relative z-10" style={{ 
-                  background: 'linear-gradient(135deg, hsl(177, 90%, 70%), hsl(262, 85%, 80%), hsl(330, 90%, 75%))',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent'
-                }} />
+                <AuroraLogo size={200} className="relative z-10" />
                 
                 {/* Floating mini sparkles */}
                 <Stars className="h-6 w-6 text-cyan-400 absolute -top-2 -right-2 animate-pulse opacity-80" />
