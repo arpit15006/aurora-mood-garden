@@ -6,8 +6,6 @@ A comprehensive mental wellness platform designed specifically for students, fea
 
 Aurora Mood Garden is an innovative mental health application that combines modern web technologies with AI to create a supportive environment for students to track their emotional well-being, journal their thoughts, and receive personalized insights. The platform features a groundbreaking **real-time voice therapy system** that allows students to have natural conversations with an AI therapist, making mental health support more accessible and engaging than ever before.
 
-**Live Project**: https://lovable.dev/projects/f68be1f6-ed11-43cf-9d2b-77ee8c1d5498
-
 ## 🏗️ Core Architecture & Technology Stack
 
 ### **Frontend Foundation**
