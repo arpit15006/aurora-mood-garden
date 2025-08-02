@@ -5,6 +5,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Sparkles, User, Camera, BookOpen, MessageCircle, TrendingUp, Stars, Zap, LogOut, HelpCircle } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
+import AuroraLogo from '@/components/ui/AuroraLogo';
 import HomePage from '@/components/HomePage';
 import EmotionDetector from '@/components/EmotionDetector';
 import JournalSpace from '@/components/JournalSpace';
@@ -70,7 +71,9 @@ const Index = () => {
               {/* Main logo container */}
               <div className="relative liquid-glass-strong rounded-full p-4 group-hover:scale-105 transition-transform duration-300">
                 {/* Inner decorative elements */}
-                <div className="absolute inset-2 rounded-full bg-gradient-to-br from-cyan-500/15 via-purple-500/15 to-pink-500/15"></div>
+                <div className="absolute inset-2 rounded-full bg-gradient-to-br from-cyan-500/15 via-purple-500/15 to-pink-500/15">
+                  <AuroraLogo className="w-full h-full" size={60} />
+                </div>
                 
                 {/* Logo content */}
                 <div className="relative flex items-center justify-center">
