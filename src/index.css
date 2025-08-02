@@ -1,0 +1,263 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 220 23% 8%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 84% 4.9%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+    
+    /* Aurora Theme Colors */
+    --aurora-electric-blue: 177 90% 70%;
+    --aurora-purple: 262 85% 80%;
+    --aurora-cyan: 189 90% 65%;
+    --aurora-green: 150 80% 60%;
+    --aurora-pink: 330 90% 75%;
+    --aurora-deep-blue: 220 60% 15%;
+    --aurora-midnight: 235 45% 8%;
+  }
+
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-foreground min-h-screen;
+    background-attachment: fixed;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Northern Lights Background Animation */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(ellipse at 20% 20%, rgba(45, 212, 191, 0.15) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 30%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 40% 70%, rgba(236, 72, 153, 0.1) 0%, transparent 50%),
+      radial-gradient(ellipse at 90% 80%, rgba(34, 197, 94, 0.08) 0%, transparent 50%),
+      linear-gradient(135deg, rgba(45, 212, 191, 0.05) 0%, rgba(139, 92, 246, 0.05) 25%, rgba(236, 72, 153, 0.05) 50%, rgba(34, 197, 94, 0.05) 75%, rgba(45, 212, 191, 0.05) 100%);
+    animation: aurora-dance 20s ease-in-out infinite alternate;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* Floating particles */
+  body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(2px 2px at 20px 30px, rgba(45, 212, 191, 0.3), transparent),
+      radial-gradient(2px 2px at 40px 70px, rgba(139, 92, 246, 0.2), transparent),
+      radial-gradient(1px 1px at 90px 40px, rgba(236, 72, 153, 0.3), transparent),
+      radial-gradient(1px 1px at 130px 80px, rgba(34, 197, 94, 0.2), transparent);
+    background-repeat: repeat;
+    background-size: 150px 100px;
+    animation: particles-float 25s linear infinite;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  @keyframes aurora-dance {
+    0% {
+      transform: rotate(0deg) scale(1);
+      opacity: 0.8;
+    }
+    25% {
+      transform: rotate(1deg) scale(1.02);
+      opacity: 0.9;
+    }
+    50% {
+      transform: rotate(-1deg) scale(0.98);
+      opacity: 0.85;
+    }
+    75% {
+      transform: rotate(2deg) scale(1.01);
+      opacity: 0.95;
+    }
+    100% {
+      transform: rotate(-0.5deg) scale(1);
+      opacity: 0.8;
+    }
+  }
+
+  @keyframes particles-float {
+    0% {
+      transform: translateY(0px) translateX(0px);
+    }
+    33% {
+      transform: translateY(-20px) translateX(10px);
+    }
+    66% {
+      transform: translateY(-10px) translateX(-5px);
+    }
+    100% {
+      transform: translateY(0px) translateX(0px);
+    }
+  }
+}
+
+/* Liquid Glass Effects */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.liquid-glass-strong {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.4),
+    inset 0 2px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -2px 0 rgba(255, 255, 255, 0.08);
+}
+
+.liquid-glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  box-shadow: 
+    0 10px 36px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Aurora Text Effects - NO ANIMATION, JUST COLORS */
+.aurora-text {
+  background: linear-gradient(135deg, 
+    hsl(var(--aurora-electric-blue)),
+    hsl(var(--aurora-purple)),
+    hsl(var(--aurora-pink))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: bold;
+}
+
+.aurora-text-glow {
+  background: linear-gradient(135deg, 
+    hsl(var(--aurora-electric-blue)),
+    hsl(var(--aurora-purple)),
+    hsl(var(--aurora-pink))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: bold;
+  text-shadow: 0 0 20px rgba(45, 212, 191, 0.3);
+}
+
+.aurora-text-dark {
+  background: linear-gradient(135deg, 
+    hsl(var(--aurora-cyan)),
+    hsl(var(--aurora-purple)),
+    hsl(var(--aurora-green))
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}
+
+/* Floating Orbs */
+.floating-orb {
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(45deg, 
+    rgba(45, 212, 191, 0.1), 
+    rgba(139, 92, 246, 0.1), 
+    rgba(236, 72, 153, 0.1)
+  );
+  backdrop-filter: blur(8px);
+  animation: float 15s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.floating-orb:nth-child(1) {
+  width: 300px;
+  height: 300px;
+  top: 10%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.floating-orb:nth-child(2) {
+  width: 200px;
+  height: 200px;
+  top: 60%;
+  right: 15%;
+  animation-delay: 7s;
+}
+
+.floating-orb:nth-child(3) {
+  width: 150px;
+  height: 150px;
+  bottom: 20%;
+  left: 50%;
+  animation-delay: 14s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) rotate(0deg) scale(1);
+    opacity: 0.4;
+  }
+  25% {
+    transform: translate(30px, -20px) rotate(90deg) scale(1.1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translate(-20px, -40px) rotate(180deg) scale(0.9);
+    opacity: 0.5;
+  }
+  75% {
+    transform: translate(-40px, 20px) rotate(270deg) scale(1.05);
+    opacity: 0.7;
+  }
+}
