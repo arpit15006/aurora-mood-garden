@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Camera, CameraOff, Brain, Activity, Eye, Loader2 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/components/AuthProvider';
+import { useUser } from '@clerk/clerk-react';
 import { Progress } from '@/components/ui/progress';
 
 interface EmotionResult {
@@ -37,7 +37,7 @@ const EmotionDetector = () => {
   const [detectionCount, setDetectionCount] = useState(0);
   const [nextDetectionTime, setNextDetectionTime] = useState(0);
   const [countdown, setCountdown] = useState(0);
-  const { user } = useAuth();
+  const { user } = useUser();
 
   const emotions = ['angry', 'disgusted', 'fearful', 'happy', 'neutral', 'sad', 'surprised'];
 
@@ -246,7 +246,7 @@ const EmotionDetector = () => {
       const { error } = await supabase
         .from('emotion_logs')
         .insert({
-          user_id: user.id,
+          user_id: user?.id,
           detected_emotion: result.emotion,
           confidence: result.confidence
         });

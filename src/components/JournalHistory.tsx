@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { BookOpen, Search, Calendar, Brain, Lightbulb, Filter } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/components/AuthProvider';
+import { useUser } from '@clerk/clerk-react';
 
 interface JournalEntry {
   id: string;
@@ -25,7 +25,7 @@ const JournalHistory = () => {
   const [selectedMood, setSelectedMood] = useState('');
   const [loading, setLoading] = useState(true);
   const [expandedEntry, setExpandedEntry] = useState<string | null>(null);
-  const { user } = useAuth();
+  const { user } = useUser();
 
   const moods = ['happy', 'sad', 'calm', 'anxious', 'angry', 'surprised', 'neutral', 'excited', 'stressed'];
 
@@ -47,7 +47,7 @@ const JournalHistory = () => {
       const { data, error } = await supabase
         .from('journal_entries')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', user?.id)
         .order('created_at', { ascending: false });
 
       if (error) throw error;

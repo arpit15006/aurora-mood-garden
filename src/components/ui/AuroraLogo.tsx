@@ -98,7 +98,7 @@ const AuroraLogo: React.FC<AuroraLogoProps> = ({ className = "", size = 80 }) =>
         />
       </svg>
       
-      <style jsx>{`
+      <style>{`
         .aurora-logo-glow {
           filter: drop-shadow(0 0 20px rgba(6, 182, 212, 0.3));
           animation: aurora-pulse 3s ease-in-out infinite;

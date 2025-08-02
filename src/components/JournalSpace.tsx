@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Loader2, PenTool, Sparkles, Send, Save, History } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/components/AuthProvider';
+import { useUser } from '@clerk/clerk-react';
 import { useToast } from '@/components/ui/use-toast';
 import JournalHistory from './JournalHistory';
 
@@ -24,7 +24,7 @@ const JournalSpace = ({ currentMood }: JournalSpaceProps) => {
   const [isGeneratingPrompt, setIsGeneratingPrompt] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const { user } = useAuth();
+  const { user } = useUser();
   const { toast } = useToast();
 
   const groqApiKey = "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";
@@ -67,7 +67,7 @@ const JournalSpace = ({ currentMood }: JournalSpaceProps) => {
   };
 
   const saveJournalEntry = async () => {
-    if (!user || !journalEntry.trim()) {
+    if (!user?.id || !journalEntry.trim()) {
       toast({
         title: "Error",
         description: "Please write something before saving.",
@@ -79,21 +79,41 @@ const JournalSpace = ({ currentMood }: JournalSpaceProps) => {
     setIsSaving(true);
 
     try {
+      // First ensure user profile exists
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .upsert({
+          id: user.id,
+          user_id: user.id,
+          email: user.emailAddresses?.[0]?.emailAddress || user.id
+        }, { onConflict: 'id' });
+
+      if (profileError) {
+        console.error('Profile error:', profileError);
+      }
+
+      const entryData = {
+        user_id: user.id,
+        title: journalTitle || `Journal Entry - ${new Date().toLocaleDateString()}`,
+        content: journalEntry,
+        mood: currentMood || null,
+        ai_response: aiResponse || null,
+        ai_insights: aiInsights || null,
+        ai_suggestions: aiSuggestions || null
+      };
+      
       const { error } = await supabase
         .from('journal_entries')
-        .insert({
-          user_id: user.id,
-          title: journalTitle || `Journal Entry - ${new Date().toLocaleDateString()}`,
-          content: journalEntry,
-          mood: currentMood,
-          ai_response: aiResponse,
-          ai_insights: aiInsights,
-          ai_suggestions: aiSuggestions
-        });
+        .insert(entryData);
 
       if (error) {
         console.error('Database error:', error);
-        throw error;
+        toast({
+          title: "Database Error",
+          description: error.message || "Failed to save journal entry.",
+          variant: "destructive",
+        });
+        return;
       }
 
       toast({

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from 'recharts';
 import { TrendingUp, Brain, Target, RefreshCw, BookOpen, MessageSquare, Flower2 } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
-import { useAuth } from '@/components/AuthProvider';
+import { useUser } from '@clerk/clerk-react';
 
 const Dashboard = () => {
   const [emotionData, setEmotionData] = useState<any[]>([]);
@@ -19,7 +19,7 @@ const Dashboard = () => {
   const [isGeneratingInsights, setIsGeneratingInsights] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [hasData, setHasData] = useState(false);
-  const { user } = useAuth();
+  const { user } = useUser();
 
   const groqApiKey = "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";
 
@@ -68,7 +68,7 @@ const Dashboard = () => {
       const { data: emotionLogs, error: emotionError } = await supabase
         .from('emotion_logs')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', user?.id)
         .order('timestamp', { ascending: false });
 
       if (emotionError) throw emotionError;
@@ -77,7 +77,7 @@ const Dashboard = () => {
       const { data: journalEntries, error: journalError } = await supabase
         .from('journal_entries')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', user?.id)
         .order('created_at', { ascending: false });
 
       if (journalError) throw journalError;

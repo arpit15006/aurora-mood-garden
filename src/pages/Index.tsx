@@ -3,8 +3,8 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Sparkles, User, Camera, BookOpen, MessageCircle, TrendingUp, Stars, Zap, LogOut, HelpCircle, TreePine } from 'lucide-react';
-import { useAuth } from '@/components/AuthProvider';
+import { Sparkles, User, Camera, BookOpen, MessageCircle, TrendingUp, Stars, Zap, HelpCircle, TreePine } from 'lucide-react';
+import { useUser, UserButton } from '@clerk/clerk-react';
 import AuroraLogo from '@/components/ui/AuroraLogo';
 import HomePage from '@/components/HomePage';
 import EmotionDetector from '@/components/EmotionDetector';
@@ -27,7 +27,7 @@ const Index = () => {
   const [currentMood, setCurrentMood] = useState<string>('');
   const location = useLocation();
   const navigate = useNavigate();
-  const { user, signOut } = useAuth();
+  const { user } = useUser();
 
   // Handle navigation from mood garden
   useEffect(() => {
@@ -36,24 +36,13 @@ const Index = () => {
     }
   }, [location.state]);
 
-  const handleSignOut = async () => {
-    try {
-      await signOut();
-      navigate('/auth');
-    } catch (error) {
-      console.error('Error signing out:', error);
-    }
-  };
+
 
   const handleOnboardingNavigation = () => {
     navigate('/onboarding');
   };
 
-  // Redirect to auth if not authenticated
-  if (!user) {
-    navigate('/auth');
-    return null;
-  }
+
 
   return (
     <div className="min-h-screen relative overflow-hidden">
@@ -98,17 +87,6 @@ const Index = () => {
             </div>
           </div>
           <div className="flex items-center space-x-3">
-            {/* User Name */}
-            <div className="liquid-glass px-4 py-2 rounded-3xl backdrop-blur-xl border border-white/10">
-              <div className="flex items-center space-x-2">
-                <User className="h-4 w-4 text-cyan-400" />
-                <span className="text-white font-medium">
-                  {user?.email?.split('@')[0] || 'User'}
-                </span>
-              </div>
-            </div>
-            
-            {/* Onboarding Button */}
             <Button
               onClick={handleOnboardingNavigation}
               variant="outline"
@@ -118,14 +96,7 @@ const Index = () => {
               Guide
             </Button>
             
-            <Button 
-              onClick={handleSignOut}
-              variant="outline"
-              className="liquid-glass text-white hover:bg-white/10 rounded-3xl backdrop-blur-xl border border-white/10"
-            >
-              <LogOut className="h-4 w-4 mr-2" />
-              Sign Out
-            </Button>
+            <UserButton afterSignOutUrl="/" />
           </div>
         </div>
 
