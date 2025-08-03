@@ -1,157 +1,51 @@
-
-import { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { Card, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Sparkles, User, Camera, BookOpen, MessageCircle, TrendingUp, Stars, Zap, HelpCircle, TreePine, Gamepad2 } from 'lucide-react';
+import { Sparkles, User } from 'lucide-react';
 import { useUser, UserButton } from '@clerk/clerk-react';
-import AuroraLogo from '@/components/ui/AuroraLogo';
-import HomePage from '@/components/HomePage';
-import EmotionDetector from '@/components/EmotionDetector';
-import JournalSpace from '@/components/JournalSpace';
-import AIVentSpace from '@/components/AIVentSpace';
-import Dashboard from '@/components/Dashboard';
-import MoodGarden from '@/components/MoodGarden';
-import GamesHub from '@/components/GamesHub';
-
-const tabs = [
-  { id: 'home', label: 'Home', icon: Sparkles },
-  { id: 'mood-garden', label: 'Mood Garden', icon: TreePine },
-  { id: 'emotion-detection', label: 'Emotion Detection', icon: Camera },
-  { id: 'journal', label: 'Journal', icon: BookOpen },
-  { id: 'vent', label: 'AI Companion', icon: MessageCircle },
-  { id: 'analytics', label: 'Analytics', icon: TrendingUp },
-  { id: 'games', label: 'Games', icon: Gamepad2 },
-];
 
 const Index = () => {
-  const [currentSection, setCurrentSection] = useState('home');
-  const [currentMood, setCurrentMood] = useState<string>('');
-  const location = useLocation();
-  const navigate = useNavigate();
   const { user } = useUser();
 
-  // Handle navigation from mood garden
-  useEffect(() => {
-    if (location.state?.activeTab) {
-      setCurrentSection(location.state.activeTab);
-    }
-  }, [location.state]);
-
-
-
-  const handleOnboardingNavigation = () => {
-    navigate('/onboarding');
-  };
-
-
-
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Floating Orbs */}
-      <div className="floating-orb" />
-      <div className="floating-orb" />
-      <div className="floating-orb" />
-      
-      <div className="container mx-auto px-4 py-6 relative z-10">
-        {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center space-x-3">
-            <div className="relative group">
-              {/* Outer glow ring */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 rounded-full blur-xl opacity-20 group-hover:opacity-30 transition-opacity duration-300"></div>
-              
-              {/* Main logo container */}
-              <div className="relative liquid-glass-strong rounded-full p-4 group-hover:scale-105 transition-transform duration-300">
-                {/* Inner decorative elements */}
-                <div className="absolute inset-2 rounded-full bg-gradient-to-br from-cyan-500/15 via-purple-500/15 to-pink-500/15">
-                  <AuroraLogo className="w-full h-full" size={60} />
-                </div>
-                
-                {/* Logo content */}
-                <div className="relative flex items-center justify-center">
-                  <Sparkles className="h-10 w-10 text-transparent" style={{ 
-                    background: 'linear-gradient(135deg, hsl(177, 90%, 70%), hsl(262, 85%, 80%), hsl(330, 90%, 75%))',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent'
-                  }} />
-                  
-                  {/* Floating mini sparkles */}
-                  <Stars className="h-3 w-3 text-cyan-400 absolute -top-1 -right-1 animate-pulse opacity-80" />
-                  <Zap className="h-2 w-2 text-purple-400 absolute -bottom-1 -left-1 animate-pulse opacity-70" />
-                  <Sparkles className="h-2 w-2 text-pink-400 absolute top-0 left-4 animate-pulse opacity-60" />
-                </div>
-              </div>
-            </div>
-            <div>
-              <h1 className="text-3xl font-bold text-transparent bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text">Aurora</h1>
-              <p className="text-sm text-gray-300">AI Wellness Companion</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-3">
-            <Button
-              onClick={handleOnboardingNavigation}
-              variant="outline"
-              className="liquid-glass text-white hover:bg-white/10 rounded-3xl backdrop-blur-xl border border-white/10"
-            >
-              <HelpCircle className="h-4 w-4 mr-2" />
-              Guide
-            </Button>
-            
-            <UserButton afterSignOutUrl="/" />
-          </div>
+    <div className="min-h-screen flex items-center justify-center text-white">
+      <div className="text-center space-y-6">
+        <div className="flex items-center justify-center space-x-3 mb-8">
+          <Sparkles className="h-16 w-16 text-cyan-400" />
+          <h1 className="text-6xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+            Aurora
+          </h1>
         </div>
-
-        {/* Enhanced Navigation Tabs */}
-        <Card className="liquid-glass-strong mb-8 rounded-3xl border-2 border-white/10 backdrop-blur-xl">
-          <CardContent className="p-6">
-            <div className="flex justify-between items-center w-full">
-              {tabs.map((tab) => {
-                const Icon = tab.icon;
-                const isActive = currentSection === tab.id;
-                return (
-                  <Button
-                    key={tab.id}
-                    onClick={() => setCurrentSection(tab.id)}
-                    variant={isActive ? "default" : "ghost"}
-                    className={`
-                      flex items-center space-x-2 px-4 lg:px-6 py-3 lg:py-4 rounded-3xl transition-all duration-500 border-2 flex-1 mx-1
-                      ${isActive 
-                        ? 'bg-gradient-to-r from-cyan-500/40 to-purple-600/40 text-white border-cyan-400/50 shadow-2xl backdrop-blur-xl liquid-glass-strong scale-105' 
-                        : 'text-gray-300 hover:text-white hover:bg-white/10 border-transparent hover:border-white/20 hover:scale-105 liquid-glass backdrop-blur-xl'
-                      }
-                    `}
-                  >
-                    <Icon className={`h-5 w-5 ${isActive ? 'text-cyan-200' : ''}`} />
-                    <span className="font-semibold text-sm lg:text-base whitespace-nowrap hidden sm:inline">{tab.label}</span>
-                    {isActive && (
-                      <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
-                    )}
-                  </Button>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Content */}
-        <div className="space-y-8">
-          {currentSection === 'home' && <HomePage onNavigate={setCurrentSection} currentSection={currentSection} />}
-          {currentSection === 'mood-garden' && <MoodGarden />}
-          {currentSection === 'emotion-detection' && <EmotionDetector />}
-          {currentSection === 'journal' && <JournalSpace currentMood={currentMood} />}
-          {currentSection === 'vent' && <AIVentSpace />}
-          {currentSection === 'analytics' && <Dashboard />}
-          {currentSection === 'games' && <GamesHub onBack={() => setCurrentSection('home')} />}
+        <p className="text-2xl text-gray-300">Welcome, {user?.firstName || 'User'}!</p>
+        <p className="text-lg text-gray-400">Your AI Wellness Companion</p>
+        
+        <div className="flex items-center justify-center space-x-4 mt-8">
+          <div className="flex items-center space-x-2 px-4 py-2 bg-white/5 rounded-full border border-white/10">
+            <User className="h-4 w-4 text-cyan-400" />
+            <span className="text-white font-medium">
+              {user?.emailAddresses?.[0]?.emailAddress || 'user@example.com'}
+            </span>
+          </div>
+          <UserButton afterSignOutUrl="/" />
+        </div>
+        
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl">
+          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
+            <Sparkles className="h-8 w-8 text-cyan-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-white mb-2">Emotion Detection</h3>
+            <p className="text-gray-300">AI-powered emotion analysis</p>
+          </div>
+          
+          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
+            <Sparkles className="h-8 w-8 text-purple-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-white mb-2">Smart Journaling</h3>
+            <p className="text-gray-300">AI-enhanced reflection</p>
+          </div>
+          
+          <div className="bg-white/5 backdrop-blur-lg rounded-xl p-6 border border-white/10">
+            <Sparkles className="h-8 w-8 text-pink-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-white mb-2">AI Companion</h3>
+            <p className="text-gray-300">24/7 emotional support</p>
+          </div>
         </div>
       </div>
-      
-      {/* Footer */}
-      <footer className="relative z-10 py-6 text-center border-t border-white/10 mt-12">
-        <div className="container mx-auto px-4">
-          <p className="text-gray-400 text-sm">Built by Team Vortexium</p>
-        </div>
-      </footer>
     </div>
   );
 };

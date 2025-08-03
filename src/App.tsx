@@ -1,14 +1,15 @@
-
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { SignedIn, SignedOut, SignInButton, SignUpButton, UserButton } from "@clerk/clerk-react";
-import Index from "./pages/Index";
-import MoodGarden from "./pages/MoodGarden";
-import Onboarding from "./pages/Onboarding";
-import NotFound from "./pages/NotFound";
+import { useState } from 'react';
+import { SignedIn, SignedOut, SignInButton, SignUpButton, useUser, UserButton } from "@clerk/clerk-react";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Toaster } from '@/components/ui/toaster';
+import Navigation from './components/Navigation';
+import Dashboard from './components/Dashboard';
+import AIVentSpace from './components/AIVentSpace';
+import JournalSpace from './components/JournalSpace';
+import EmotionDetector from './components/EmotionDetector';
+import MoodGarden from './components/MoodGarden';
+import GamesHub from './components/GamesHub';
+import { Sparkles } from 'lucide-react';
 
 const queryClient = new QueryClient();
 
@@ -71,8 +72,8 @@ const AuthPage = () => (
             <p className="text-xs text-gray-300">Mood Garden</p>
           </div>
           <div className="liquid-glass p-4 rounded-xl text-center">
-            <div className="text-2xl mb-2">💬</div>
-            <p className="text-xs text-gray-300">AI Voice Therapy</p>
+            <div className="text-2xl mb-2">🎮</div>
+            <p className="text-xs text-gray-300">Therapeutic Games</p>
           </div>
         </div>
         
@@ -87,42 +88,100 @@ const AuthPage = () => (
   </div>
 );
 
-const AppRoutes = () => (
-  <Routes>
-    <Route path="/" element={
-      <SignedIn>
-        <Index />
-      </SignedIn>
-    } />
-    <Route path="/mood-garden" element={
-      <SignedIn>
-        <MoodGarden />
-      </SignedIn>
-    } />
-    <Route path="/onboarding" element={
-      <SignedIn>
-        <Onboarding />
-      </SignedIn>
-    } />
-    <Route path="*" element={<NotFound />} />
-  </Routes>
-);
+const AuroraApp = () => {
+  const [currentSection, setCurrentSection] = useState('home');
+  const [currentMood, setCurrentMood] = useState('neutral');
+  const { user } = useUser();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
+  const handleNavigate = (section: string) => {
+    setCurrentSection(section);
+  };
+
+  const renderCurrentSection = () => {
+    switch (currentSection) {
+      case 'home':
+        return (
+          <div className="space-y-8">
+            <div className="text-center space-y-4">
+              <div className="flex items-center justify-center space-x-3">
+                <Sparkles className="h-12 w-12 text-cyan-400" />
+                <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                  Welcome back, {user?.firstName || 'User'}!
+                </h1>
+              </div>
+              <p className="text-xl text-gray-300">Choose a wellness activity to get started</p>
+            </div>
+            <Navigation onNavigate={handleNavigate} currentSection={currentSection} />
+          </div>
+        );
+      case 'analytics':
+        return <Dashboard />;
+      case 'vent':
+        return <AIVentSpace />;
+      case 'journal':
+        return <JournalSpace currentMood={currentMood} />;
+      case 'emotion-detection':
+        return <EmotionDetector />;
+      case 'mood-garden':
+        return <MoodGarden />;
+      case 'games':
+        return <GamesHub onBack={() => handleNavigate('home')} />;
+      default:
+        return (
+          <div className="space-y-8">
+            <div className="text-center space-y-4">
+              <h1 className="text-4xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+                Welcome back, {user?.firstName || 'User'}!
+              </h1>
+              <p className="text-xl text-gray-300">Choose a wellness activity to get started</p>
+            </div>
+            <Navigation onNavigate={handleNavigate} currentSection={currentSection} />
+          </div>
+        );
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+      <div className="container mx-auto px-4 py-6">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <button
+            onClick={() => handleNavigate('home')}
+            className="flex items-center space-x-3 hover:opacity-80 transition-opacity"
+          >
+            <Sparkles className="h-8 w-8 text-cyan-400" />
+            <h1 className="text-3xl font-bold bg-gradient-to-r from-cyan-400 via-purple-500 to-pink-500 bg-clip-text text-transparent">
+              Aurora
+            </h1>
+          </button>
+          <div className="flex items-center space-x-4">
+            <span className="text-white hidden sm:block">Welcome, {user?.firstName || 'User'}!</span>
+            <UserButton afterSignOutUrl="/" />
+          </div>
+        </div>
+        
+        {/* Main Content */}
+        {renderCurrentSection()}
+      </div>
+    </div>
+  );
+};
+
+const App = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
         <SignedOut>
           <AuthPage />
         </SignedOut>
         <SignedIn>
-          <AppRoutes />
+          <AuroraApp />
         </SignedIn>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+        <Toaster />
+      </div>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
