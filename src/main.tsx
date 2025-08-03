@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App.tsx";
 import { ClerkProvider } from "@clerk/clerk-react";
 
-const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY || "pk_live_Y2xlcmsuYXJwaXRzb2Z0d2FyZS5lbmdpbmVlciQ";
+const PUBLISHABLE_KEY = "pk_live_Y2xlcmsuYXJwaXRzb2Z0d2FyZS5lbmdpbmVlciQ";
 
 if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Clerk Publishable Key");
@@ -12,7 +12,16 @@ if (!PUBLISHABLE_KEY) {
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+    <ClerkProvider 
+      publishableKey={PUBLISHABLE_KEY} 
+      afterSignOutUrl="/"
+      appearance={{
+        baseTheme: undefined,
+        variables: {
+          colorPrimary: "#06b6d4"
+        }
+      }}
+    >
       <App />
     </ClerkProvider>
   </StrictMode>
