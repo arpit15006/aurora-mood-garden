@@ -1,7 +1,5 @@
-
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Sparkles, BookOpen, MessageCircle, Camera, Heart, ArrowRight, TreePine, TrendingUp, Gamepad2 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 
 interface NavigationProps {
   onNavigate: (section: string) => void;
@@ -9,8 +7,6 @@ interface NavigationProps {
 }
 
 const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
-  const navigate = useNavigate();
-
   const navigationItems = [
     {
       id: 'home',
@@ -95,10 +91,8 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
             `}
             onClick={item.action}
           >
-            {/* Background gradient overlay */}
             <div className={`absolute inset-0 ${item.bgColor} opacity-20 group-hover:opacity-30 transition-opacity duration-300 rounded-3xl`} />
             
-            {/* Hover effect overlay */}
             <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-3xl" />
             
             <CardHeader className="relative z-10 pb-3">
@@ -125,7 +119,6 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
                 {item.description}
               </CardDescription>
               
-              {/* Active indicator */}
               {isActive && (
                 <div className="mt-3 flex items-center space-x-2">
                   <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse" />
@@ -134,7 +127,6 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
               )}
             </CardContent>
             
-            {/* Bottom accent line */}
             <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${item.gradient} opacity-50 group-hover:opacity-100 transition-opacity duration-300 rounded-b-3xl`} />
           </Card>
         );
