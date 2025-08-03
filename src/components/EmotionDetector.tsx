@@ -243,17 +243,21 @@ const EmotionDetector = () => {
       setDetectionCount(prev => prev + 1);
 
       // Save to database using the correct column names
-      const { error } = await supabase
-        .from('emotion_logs')
-        .insert({
-          user_id: user?.id,
-          detected_emotion: result.emotion,
-          confidence: result.confidence
-        });
+      if (user?.id) {
+        const { error } = await supabase
+          .from('emotion_logs')
+          .insert({
+            user_id: user.id,
+            detected_emotion: result.emotion,
+            confidence: result.confidence
+          });
 
-      if (error) {
-        console.error('Error saving emotion log:', error);
+        if (error) {
+          console.error('Error saving emotion log:', error);
+        }
       }
+
+
     } catch (error) {
       console.error('Error in emotion detection:', error);
     } finally {
