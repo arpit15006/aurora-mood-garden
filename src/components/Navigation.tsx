@@ -1,6 +1,6 @@
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Sparkles, BookOpen, MessageCircle, Camera, Heart, ArrowRight, TreePine, TrendingUp } from 'lucide-react';
+import { Sparkles, BookOpen, MessageCircle, Camera, Heart, ArrowRight, TreePine, TrendingUp, Gamepad2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 interface NavigationProps {
@@ -65,6 +65,15 @@ const Navigation = ({ onNavigate, currentSection }: NavigationProps) => {
       gradient: 'from-orange-500 to-red-600',
       bgColor: 'bg-orange-500/10',
       action: () => onNavigate('analytics')
+    },
+    {
+      id: 'games',
+      title: 'Therapeutic Games',
+      description: 'Relieve stress through mindful gaming',
+      icon: Gamepad2,
+      gradient: 'from-violet-500 to-purple-600',
+      bgColor: 'bg-violet-500/10',
+      action: () => onNavigate('games')
     }
   ];
 

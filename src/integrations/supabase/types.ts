@@ -80,6 +80,39 @@ export type Database = {
         }
         Relationships: []
       }
+      game_stats: {
+        Row: {
+          completed: boolean
+          created_at: string | null
+          game_type: string
+          id: string
+          score: number
+          time_played: number
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          created_at?: string | null
+          game_type: string
+          id?: string
+          score?: number
+          time_played?: number
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          created_at?: string | null
+          game_type?: string
+          id?: string
+          score?: number
+          time_played?: number
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string | null

@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Sparkles, User, Camera, BookOpen, MessageCircle, TrendingUp, Stars, Zap, HelpCircle, TreePine } from 'lucide-react';
+import { Sparkles, User, Camera, BookOpen, MessageCircle, TrendingUp, Stars, Zap, HelpCircle, TreePine, Gamepad2 } from 'lucide-react';
 import { useUser, UserButton } from '@clerk/clerk-react';
 import AuroraLogo from '@/components/ui/AuroraLogo';
 import HomePage from '@/components/HomePage';
@@ -12,6 +12,7 @@ import JournalSpace from '@/components/JournalSpace';
 import AIVentSpace from '@/components/AIVentSpace';
 import Dashboard from '@/components/Dashboard';
 import MoodGarden from '@/components/MoodGarden';
+import GamesHub from '@/components/GamesHub';
 
 const tabs = [
   { id: 'home', label: 'Home', icon: Sparkles },
@@ -20,6 +21,7 @@ const tabs = [
   { id: 'journal', label: 'Journal', icon: BookOpen },
   { id: 'vent', label: 'AI Companion', icon: MessageCircle },
   { id: 'analytics', label: 'Analytics', icon: TrendingUp },
+  { id: 'games', label: 'Games', icon: Gamepad2 },
 ];
 
 const Index = () => {
@@ -140,6 +142,7 @@ const Index = () => {
           {currentSection === 'journal' && <JournalSpace currentMood={currentMood} />}
           {currentSection === 'vent' && <AIVentSpace />}
           {currentSection === 'analytics' && <Dashboard />}
+          {currentSection === 'games' && <GamesHub onBack={() => setCurrentSection('home')} />}
         </div>
       </div>
       
