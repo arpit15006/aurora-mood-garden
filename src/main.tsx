@@ -15,8 +15,6 @@ createRoot(document.getElementById("root")!).render(
     <ClerkProvider 
       publishableKey={PUBLISHABLE_KEY} 
       afterSignOutUrl="/"
-      domain="clerk.arpitsoftware.engineer"
-      isSatellite={false}
     >
       <App />
     </ClerkProvider>
