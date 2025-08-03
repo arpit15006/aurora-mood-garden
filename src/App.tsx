@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { SignedIn, SignedOut, SignInButton, SignUpButton, useUser, UserButton, useClerk } from "@clerk/clerk-react";
+import { useState, useEffect } from 'react';
+// import { SignedIn, SignedOut, SignInButton, SignUpButton, useUser, UserButton, useClerk } from "@clerk/clerk-react";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Toaster } from '@/components/ui/toaster';
 import Navigation from './components/Navigation';
@@ -83,7 +83,8 @@ const AuthPage = () => (
 const AuroraApp = () => {
   const [currentSection, setCurrentSection] = useState('home');
   const [currentMood, setCurrentMood] = useState('neutral');
-  const { user } = useUser();
+  // const { user } = useUser();
+  const user = { firstName: 'Demo User' }; // Temporary mock user
 
   const handleNavigate = (section: string) => {
     setCurrentSection(section);
@@ -149,7 +150,10 @@ const AuroraApp = () => {
           </button>
           <div className="flex items-center space-x-4">
             <span className="text-white hidden sm:block">Welcome, {user?.firstName || 'User'}!</span>
-            <UserButton afterSignOutUrl="/" />
+            {/* <UserButton afterSignOutUrl="/" /> */}
+            <div className="w-8 h-8 bg-gradient-to-r from-cyan-400 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
+              {(user?.firstName || 'U')[0]}
+            </div>
           </div>
         </div>
         
@@ -172,9 +176,32 @@ const LoadingScreen = () => (
 
 const AppContent = () => {
   const { loaded } = useClerk();
+  const [bypassAuth, setBypassAuth] = useState(false);
   
-  if (!loaded) {
+  // Timeout to bypass Clerk if it takes too long
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!loaded) {
+        console.warn('Clerk taking too long to load, bypassing authentication');
+        setBypassAuth(true);
+      }
+    }, 3000); // 3 second timeout
+    
+    return () => clearTimeout(timer);
+  }, [loaded]);
+  
+  if (!loaded && !bypassAuth) {
     return <LoadingScreen />;
+  }
+
+  // If bypassing auth or Clerk is loaded
+  if (bypassAuth) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <AuroraApp />
+        <Toaster />
+      </div>
+    );
   }
 
   return (
@@ -191,9 +218,13 @@ const AppContent = () => {
 };
 
 const App = () => {
+  // Temporary bypass for Clerk issues - directly show the app
   return (
     <QueryClientProvider client={queryClient}>
-      <AppContent />
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+        <AuroraApp />
+        <Toaster />
+      </div>
     </QueryClientProvider>
   );
 };
